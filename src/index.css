@@ -44,7 +44,7 @@ body {
 
   text-transform: uppercase;
   text-align: center;
-  font-size: 5.2rem;
+  font-size: 4.2rem;
   font-weight: 300;
   letter-spacing: 3px;
   position: relative;
@@ -56,8 +56,8 @@ body {
 .header h1::after {
   display: block;
   content: '';
-  height: 3px;
-  width: 12rem;
+  height: 5px;
+  width: 10rem;
   background-color: #edc84b;
   position: absolute;
   top: calc(50% - 1px);

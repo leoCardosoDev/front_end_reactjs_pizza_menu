@@ -66,52 +66,64 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
   return (
     <main className="menu">
       <h2>Nosso Menu</h2>
-      <div className="pizzas">
-        {pizzaData.map((pizza) => (
-          <Pizza
-            name={pizza.name}
-            ingredient={pizza.ingredients}
-            photoName={pizza.photoName}
-            price={pizza.price}
-          />
-        ))}
-      </div>
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>Estamos trabalhando no nosso menu. Por favor, volte mais tarde.</p>
+      )}
     </main>
   );
 }
 
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 12;
-  const closeHour = 22;
+  const openHour = 14;
+  const closeHour = 23;
   const isOpen = hour >= openHour && hour <= closeHour;
-  const message = isOpen
-    ? 'No momento estamos abertos!'
-    : 'Desculpas! No momento estamos fechados!';
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}
-      {' - '}
-      {message}
+      {isOpen ? (
+        <Order closeHour={closeHour} />
+      ) : (
+        <p>
+          Estaremos felizes em te receber entre {openHour}:00 até {closeHour}
+          :59
+        </p>
+      )}
     </footer>
   );
-  //return React.createElement('footer', null, 'No momento estamos abertos!');
+}
+
+function Order(props) {
+  return (
+    <div className="order">
+      <p>Estamos abertos até às {props.closeHour}:59! Faça seu pedido!</p>
+      <button className="btn">Pedido</button>
+    </div>
+  );
 }
 
 function Pizza(props) {
+  if (props.pizzaObj.soldOut) return null;
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredient}</p>
-        <span>R$ {props.price},00</span>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>R$ {props.pizzaObj.price},00</span>
       </div>
-    </div>
+    </li>
   );
 }
 
