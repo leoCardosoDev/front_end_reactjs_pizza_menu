@@ -72,11 +72,17 @@ function Menu() {
     <main className="menu">
       <h2>Nosso Menu</h2>
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            A autêntica cozinha italiana. São 6 pratos criativos para escolher.
+            Todos do nosso forno a lenha, tudo orgânico e delicioso.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>Estamos trabalhando no nosso menu. Por favor, volte mais tarde.</p>
       )}
@@ -86,17 +92,17 @@ function Menu() {
 
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 14;
+  const openHour = 18;
   const closeHour = 23;
   const isOpen = hour >= openHour && hour <= closeHour;
 
   return (
     <footer className="footer">
       {isOpen ? (
-        <Order closeHour={closeHour} />
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
-          Estaremos felizes em te receber entre {openHour}:00 até {closeHour}
+          Estaremos felizes em te receber das {openHour}:00 até {closeHour}
           :59
         </p>
       )}
@@ -104,24 +110,27 @@ function Footer() {
   );
 }
 
-function Order(props) {
+function Order({ closeHour, openHour }) {
   return (
     <div className="order">
-      <p>Estamos abertos até às {props.closeHour}:59! Faça seu pedido!</p>
+      <p>
+        Estamos abertos das {openHour}:00 até às {closeHour}:59! Faça seu
+        pedido!
+      </p>
       <button className="btn">Pedido</button>
     </div>
   );
 }
 
-function Pizza(props) {
-  if (props.pizzaObj.soldOut) return null;
+function Pizza({ pizzaObj }) {
+  if (pizzaObj.soldOut) return null;
   return (
     <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>R$ {props.pizzaObj.price},00</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>R$ {pizzaObj.price},00</span>
       </div>
     </li>
   );
